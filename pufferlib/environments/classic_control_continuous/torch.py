@@ -1,11 +1,6 @@
-import pufferlib.models
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-class Policy(pufferlib.models.Default):
-    def __init__(self, env, hidden_size=64):
-        super().__init__(env, hidden_size)
 
 class ContinuousCartPolePolicy(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):

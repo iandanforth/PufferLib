@@ -1,27 +1,10 @@
-from gymnasium.envs import classic_control
-import functools
-import gym
-
+import math
+import gymnasium as gym
+import numpy as np
 import pufferlib
 import pufferlib.emulation
 import pufferlib.postprocess
-
-
-def env_creator(name='cartpole'):
-    return functools.partial(make, name)
-
-def make(name, render_mode='rgb_array'):
-    '''Create an environment by name'''
-    if name == 'cartpole':
-        env_cls = classic_control.CartPoleEnv
-    elif name == 'continuous_cartpole':
-        env_cls = ContinuousCartPoleEnv
-    else:
-        raise ValueError(f'Unknown environment: {name}')
-
-    env = env_cls(render_mode=render_mode)
-    env = pufferlib.postprocess.EpisodeStats(env)
-    return pufferlib.emulation.GymnasiumPufferEnv(env=env)
+import functools
 
 class ContinuousCartPoleEnv(gym.Env):
     def __init__(self, render_mode='rgb_array'):
@@ -96,3 +79,16 @@ class ContinuousCartPoleEnv(gym.Env):
         if self.viewer:
             self.viewer.close()
             self.viewer = None
+
+def env_creator(name='continuous_cartpole'):
+    return functools.partial(make, name)
+
+def make(name, render_mode='rgb_array'):
+    if name == 'continuous_cartpole':
+        env_cls = ContinuousCartPoleEnv
+    else:
+        raise ValueError(f'Unknown environment: {name}')
+
+    env = env_cls(render_mode=render_mode)
+    env = pufferlib.postprocess.EpisodeStats(env)
+    return pufferlib.emulation.GymnasiumPufferEnv(env=env)
