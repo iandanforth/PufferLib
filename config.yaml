@@ -288,6 +288,16 @@ classiccontrol:
   package: classic_control
 cartpole:
   package: classic_control
+continuous_cartpole:
+  package: classic_control
+  env_name: continuous_cartpole
+
+classic_control_continuous:
+  env_name: continuous_cartpole
+  train:
+    total_timesteps: 500_000
+    num_envs: 64
+    env_batch_size: 64
 
 crafter:
   package: crafter
